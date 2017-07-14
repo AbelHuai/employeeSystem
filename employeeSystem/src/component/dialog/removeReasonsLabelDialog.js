@@ -18,6 +18,7 @@ import BaseComponent from "../baseComponent";
 import StyleConfig from "../../style/styles";
 import TextAlignVertical from '../common/textAlignVertical'
 import CheckHighlightLabel from  '../label/checkHighlightLabel'
+import HighlightSelectedLabel from  '../label/highlightSelectedLabel'
 
 @observer
 export default class RemoveReasonsLabelDialog extends BaseComponent {
@@ -42,29 +43,40 @@ export default class RemoveReasonsLabelDialog extends BaseComponent {
     onRequestClose = () => {
         this.setVisibility(false)
     }
-    //单选
-    updateSingleSelectState = (e, index) => {
-        let ref = this.labeldata[index]
-        ref.setState({
-            isSelected: !ref.state.isSelected,
-        })
-        e.selected = !e.selected
-        if (this.lastSelectedIndex == -1 || this.lastSelectedIndex == index) {
-            this.lastSelectedIndex = index
+
+    /**
+     * 更新选择状态
+     * @param e
+     * @param index
+     * @param moreselect
+     */
+    updateSelectState = (e, index, moreselect) => {
+        if(moreselect === 'no-select') {
+
         } else {
-            let lastrRef = this.labeldata[this.lastSelectedIndex]
-            lastrRef.setState({
-                isSelected: false,
-            })
-            let lastData = this.data[this.lastSelectedIndex]
-            lastData.selected = false
-            this.lastSelectedIndex = index
+            //数据标记
+            e.selected = !e.selected
+            //是否单选
+            if (moreselect === 'one-select') {
+
+                //把最后一次选中置为否
+                if (this.lastSelectedIndex == -1 || this.lastSelectedIndex == index) {
+                    this.lastSelectedIndex = index
+                } else {
+                    let lastrRef = this.labeldata[this.lastSelectedIndex]
+                    lastrRef.setState({
+                        isSelected: false,
+                    })
+                    lastrRef.selected = false
+
+                    let lastData = this.data[this.lastSelectedIndex]
+                    lastData.selected = false
+
+                    this.lastSelectedIndex = index
+                }
+            }
         }
         this.setIsSelectData(this.data)
-    }
-    //多选
-    updateMultiSelecttState = (e, isSelected) => {
-        e.selected = isSelected
     }
     //是否有选择标签，更改确定按钮状态
     @action
@@ -99,7 +111,7 @@ export default class RemoveReasonsLabelDialog extends BaseComponent {
                                     <TouchableOpacity style={styles.button}
                                                       onPress={ () =>{
                                                           this.onRequestClose()
-                                                          onPress(this.data[this.lastSelectedIndex])
+                                                          onPress(this.data)
                                                       }}
                                                       disabled={!this.isSelectData}>
                                         <View style={
@@ -125,25 +137,24 @@ export default class RemoveReasonsLabelDialog extends BaseComponent {
                                     this.data.length > 0 ?
                                         <View style={styles.middleView}>
                                             {
-                                                this.data.map((e, index)=><CheckHighlightLabel data={e}
-                                                                                               ref={(ref) => {this.labeldata.push(ref)}}
-                                                                                               multiSelect={false}
-                                                                                               onPress={(isSelected)=>{
-                                                                                                   this.updateSingleSelectState(e,index)
-                                                                                                   {/*this.updateMultiSelecttState(e,isSelected)*/}
-                                                                                               }}
-                                                                                               lableViewStyle={{
+                                                this.data.map((e, index)=><HighlightSelectedLabel data={e}
+                                                                                                  ref={(ref) => {this.labeldata.push(ref)}}
+                                                                                                  onPress={()=>{
+                                                                                                      this.updateSelectState(e,index,'more-selet')
+                                                                                                  }}
+                                                                                                  moreSeleted='more-selet'   //no-select 不选中，只有高亮 one-select 单选  more-select  多选
+                                                                                                  lableViewStyle={{
                                                                                                    height: StyleConfig.sizes.size_60,
                                                                                                    width: (StyleConfig.screen.width - StyleConfig.sizes.size_150) / 2,
                                                                                                    borderRadius: StyleConfig.sizes.size_30,
                                                                                                    }}
-                                                                                               lableStyle={{
+                                                                                                  lableStyle={{
 
-                                                                                               }}
-                                                                                               backgroundColor={StyleConfig.colors.white}
-                                                                                               selectBackgroundColor={StyleConfig.colors.color_primary}
-                                                                                               textColor={StyleConfig.colors.color_font_main}
-                                                                                               selectTextColor={StyleConfig.colors.white}/>
+                                                                                                   }}
+                                                                                                  backgroundColor={StyleConfig.colors.white}
+                                                                                                  selectBackgroundColor={StyleConfig.colors.color_primary}
+                                                                                                  textColor={StyleConfig.colors.color_font_main}
+                                                                                                  selectTextColor={StyleConfig.colors.white}/>
                                                 )
                                             }
                                         </View> : null

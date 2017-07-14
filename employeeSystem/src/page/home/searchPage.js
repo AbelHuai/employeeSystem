@@ -31,6 +31,39 @@ export default class SearchPage extends BasePage {
 
     loadData() {
         this.pageStore.onSuccess()
+
+        console.warn(`error`)
+        let promise =  this.loadImageAsync(require('../../resource/image/ic_nav_h_def.png'))
+
+        promise.then = (value) => {
+            console.warn(`value = ${value}`)
+        }, (error) => {
+            console.warn(`error = ${error}`)
+        }
+    }
+
+    loadImageAsync = (url) => {
+        return new Promise(function(resolve, reject) {
+            var image = new Image();
+
+            image.onload = function() {
+                console.warn(`onload`)
+                resolve(image);
+            };
+
+            image.onLoadEnd = () => {
+                console.warn(`onLoadEnd`)
+                resolve('成功');
+            }
+
+            image.onerror = function() {
+                console.warn(`onerror`)
+                reject(new error('Could not load image at ' + url));
+            };
+
+            image.source = url;
+            console.warn(`loadImageAsync image.source = ${image.source}`)
+        });
     }
 
     renderContent() {

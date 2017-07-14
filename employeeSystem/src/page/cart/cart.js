@@ -42,7 +42,7 @@ export default class Cart extends Component {
         this.removeReasonsLabelDialog.showDialog(['全部', '神经大条', '好看', '巨好看'])
     }
     onButtonCollectArticlesDialog = () => {
-        this.collectArticlesDialog.showDialog(['全部的', '神经大条的', '好看的', '巨好看啊','全部', '神经大条', '好看', '巨好看'])
+        this.collectArticlesDialog.showDialog(['全部的', '神经大条的', '好看的', '巨好','全部', '神经大条', '好看', '巨好看'])
     }
     onButtonActionsheet = () => {
         this.ActionSheet.show()

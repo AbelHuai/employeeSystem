@@ -38,6 +38,16 @@ export default class ScreenLabelDialog extends BaseComponent {
     onRequestClose = () => {
         this.setVisibility(false)
     }
+    /*
+     lableViewStyle={{
+     height: StyleConfig.sizes.size_60,
+     width: (StyleConfig.screen.width - StyleConfig.sizes.size_150) / 2,
+     borderRadius: StyleConfig.sizes.size_30,
+     }}
+     lableStyle={{
+
+     }}
+    * */
 
     render() {
         return (
@@ -57,13 +67,14 @@ export default class ScreenLabelDialog extends BaseComponent {
                                         <View style={styles.middleView}>
                                             {
                                                 this.data.map((e, index)=><HighlightSelectedLabel data={e}
-                                                                                 onPress={()=>{
-                                                                                    console.warn(`index=${index}`)
-                                                                                 }}
-                                                                                 backgroundColor={StyleConfig.colors.white}
-                                                                                 selectBackgroundColor={StyleConfig.colors.color_primary}
-                                                                                 textColor={StyleConfig.colors.color_font_main}
-                                                                                 selectTextColor={StyleConfig.colors.white}/>
+                                                                                                  onPress={()=>{
+                                                                                                        console.warn(`index=${index}`)
+                                                                                                  }}
+
+                                                                                                  backgroundColor={StyleConfig.colors.white}
+                                                                                                  selectBackgroundColor={StyleConfig.colors.color_primary}
+                                                                                                  textColor={StyleConfig.colors.color_font_main}
+                                                                                                  selectTextColor={StyleConfig.colors.white}/>
                                                 )
                                             }
                                         </View> : null

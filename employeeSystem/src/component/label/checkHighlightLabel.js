@@ -20,7 +20,6 @@ export default class CheckHighlightLabel extends PureComponent {
         borderColor: PropTypes.string,
         selectTextColor: PropTypes.string,
         textColor: PropTypes.string,
-        multiSelect: PropTypes.bool,
         onPress: PropTypes.func,
         lableStyle: PropTypes.object,
     };
@@ -34,18 +33,17 @@ export default class CheckHighlightLabel extends PureComponent {
         borderColor: StyleConfig.colors.color_font_second,
         selectTextColor: StyleConfig.colors.white,
         textColor: StyleConfig.colors.color_font_main,
-        multiSelect: false,
         onPress: () => {
         },
     };
-
+    //初始化数据
     constructor(props) {
         super(props);
         this.state = {
             isSelected: false,
         }
     }
-
+    //更新单选选中状态
     updateSelectedState = () => {
         this.setState({
             isSelected: !this.state.isSelected,
@@ -54,24 +52,21 @@ export default class CheckHighlightLabel extends PureComponent {
 
     render() {
         const {
-            data,
-            onPress,
-            multiSelect,
-            backgroundColor,
-            selectBackgroundColor,
-            textColor,
-            selectTextColor,
-            borderColor,
-            selectBorderColor,
-            lableViewStyle,
-            lableStyle
+            data,                               //数据
+            onPress,                            //按钮
+            backgroundColor,                    //背景色
+            selectBackgroundColor,              //选中背景色
+            textColor,                          //字体色
+            selectTextColor,                    //选中字体色
+            borderColor,                        //边框色
+            selectBorderColor,                  //选中边框色
+            lableViewStyle,                     //视图样式
+            lableStyle                          //字体样式
         } = this.props
         return (
             <TouchableWithoutFeedback onPress={()=> {
-               if(multiSelect) {
-                  this.updateSelectedState()
-               }
-             onPress(!this.state.isSelected)
+              this.updateSelectedState()
+             onPress()
             }}>
                 <View style={[
                           styles.lableView, lableViewStyle,
